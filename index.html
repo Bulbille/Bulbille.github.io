@@ -1,0 +1,106 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>Making your first Phaser 3 Game - Part 10</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var config = {
+    type: Phaser.AUTO,
+    width: 400*14/7,
+    height: 400,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var player;
+var score = 0;
+var scoreText;
+var gameOver=false;
+var game = new Phaser.Game(config);
+
+function preload ()
+{
+    this.load.image('factory', 'assets/background.png');
+    this.load.spritesheet('imp', 'assets/imp.png', { frameWidth: 180, frameHeight: 180 });
+    this.load.audio("music",'assets/machiavellian-nightmare-electronic-dystopia-ai-robot-machine-139385.mp3')
+}
+
+function create ()
+{
+    //  A simple background for our game
+    this.add.image(400, 300, 'factory');
+
+    musique = this.sound.add("music", { loop: true });
+    musique.play(); //ça marche, mais c'est chiant comme musique
+
+    // The player and its settings
+    player = this.physics.add.sprite(20, 20, 'imp');
+    player.setScale(0.5);
+    player.setBounce(0.4);
+    player.setCollideWorldBounds(true);
+    player.body.onWorldBounds = true;
+    player.body.world.on('worldbounds', compte_collision, player);
+    
+    this.anims.create({
+        key: 'walk',
+        frames: this.anims.generateFrameNumbers('imp', { start: 1, end: 4 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    player.setVelocity(Phaser.Math.Between(30, 100),Phaser.Math.Between(30, 100));
+
+    //  Our player animations, turning, walking left and walking right.
+    //  Input Events
+    cursors = this.input.keyboard.createCursorKeys();
+
+    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+    //  The score
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
+}
+
+function update ()
+{
+    if (score > 1){
+        gameOver= true;
+        // player.setTint(0xff0000);
+        this.physics.pause();    
+    }
+    if (gameOver)
+    {
+        return;
+    }
+    player.anims.play('walk',true);
+    
+}
+
+function compte_collision(player) {
+// Checks if it's the sprite that you'listening for
+    // Make the enemy sprite unactived & make it disappear
+    score += 1;
+    scoreText.setText('Score: ' + score);
+}
+
+</script>
+
+</body>
+</html>
