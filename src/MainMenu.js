@@ -4,9 +4,6 @@ class MainMenu extends Phaser.Scene {
         this.bgFilesLoaded = false;
     }
     create() {
-        this.musique = this.sound.add("music", { loop: true });
-        this.musique.play();
-        
         this.add.sprite(0, 0, 'background').setOrigin(0,0);
 
 		EPT.Storage.initUnset('EPT-highscore', 0);
@@ -142,8 +139,8 @@ class MainMenu extends Phaser.Scene {
             ],
             'audio': [
                 ['sound-click', ['sfx/audio-button.m4a','sfx/audio-button.mp3','sfx/audio-button.ogg']],
-                ['music-theme', ['sfx/music-bitsnbites-liver.m4a','sfx/music-bitsnbites-liver.mp3','sfx/music-bitsnbites-liver.ogg']]
-            ]
+                ["music",'sfx/machiavellian-nightmare-electronic-dystopia-ai-robot-machine-139385.mp3']
+                ]
         };            
         for(var method in resources) {
             resources[method].forEach(function(args) {

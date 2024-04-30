@@ -13,8 +13,8 @@ EPT.Sfx = {
         }
         else { // music
           if(!EPT.Sfx.music || !EPT.Sfx.music.isPlaying) {
-            EPT.Sfx.music = game.sound.add('music-theme');
-            EPT.Sfx.music.volume = 0.5;
+            EPT.Sfx.music = game.sound.add('music');
+            EPT.Sfx.music.volume = 1;
           }
         }
 				break;
@@ -34,7 +34,6 @@ EPT.Sfx = {
 			default: {}
     }
     EPT.Sfx.update(type, button, label);
-
     if(type == 'music' && EPT.Sfx.music) {
       if(EPT.Sfx.status['music']) {
         if(!EPT.Sfx.music.isPlaying) {

@@ -231,7 +231,11 @@ class Game extends Phaser.Scene {
 		this.lessTimeButton.setScale(0.5*36/14); //rapport entre les deux boutons
 		this.moreTimeButton.setScale(0.5);
 		var fontTime = { font: '200px '+EPT.text['FONT'], fill: '#ffde00', stroke: '#000', strokeThickness: 20, align: 'center' };
-		this.timeText = this.add.text(EPT.world.width/2,EPT.world.height/2, "∞", fontTime).setOrigin(0.5);
+		if(time > 120 )
+			this.timeText = this.add.text(EPT.world.width/2,EPT.world.height/2, "∞", fontTime).setOrigin(0.5);
+		else 
+			this.timeText = this.add.text(EPT.world.width/2,EPT.world.height/2, time, fontTime).setOrigin(0.5);
+
 
 		this.screenPausedGroup.add(this.lessTimeButton);
 		this.screenPausedGroup.add(this.moreTimeButton);
