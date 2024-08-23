@@ -6,11 +6,10 @@ class Game extends Phaser.Scene {
         this.add.sprite(0, 0, 'background').setOrigin(0,0);
         this.stateStatus = null;
         this._time_left = time;
-		this._turns_left = 5;
+		this._turns_left = 10;
 		
 		this._gamePaused = false;
 		this._runOnce = false;
-
 		
         this.cameras.main.fadeIn(250);
         this.stateStatus = 'playing';
@@ -42,7 +41,7 @@ class Game extends Phaser.Scene {
 		// Play the animations
 		this.anims.create({
 			key: 'pose-ouvrier',
-			frames: this.anims.generateFrameNumbers('emplacement', { start: 0, end: 5 }),
+			frames: this.anims.generateFrameNumbers('emplacement', { start: 0, end: 4 }),
 			frameRate: 1/time,
 			repeat: -1 // Repeat once for frames 0 to 6
 		});				
@@ -59,9 +58,12 @@ class Game extends Phaser.Scene {
                 this._time_left--;
 				if(this._time_left == 0) {
 					this._time_left = time;
+					this.emplacementsAnimations.forEach(function(sprite,i) {
+						sprite.anims.nextFrame(); 
+					});
 					this.removeTurn();
 				}
-				this.timeBar.scaleX = this._time_left/time;
+				this.timeBar.scaleY = this._time_left/time;
                 if(this._turns_left < 0) {
                     this._runOnce = false;
                     this.stateStatus = 'gameover';
@@ -147,40 +149,38 @@ class Game extends Phaser.Scene {
 		this.tweens.add({targets: this.screenGameoverRestart, x: EPT.world.width-100, duration: 500, delay: 250, ease: 'Back'});
 	}
     initUI() {
-		let emplacementsPlace = [[EPT.world.width/4-30,EPT.world.height/6+30],
-								[EPT.world.width/4-30,EPT.world.height/2+30],
-								[EPT.world.width/4-30,EPT.world.height*5/6+30],
-								[EPT.world.width*3/4+30,EPT.world.height*5/6+30],
-								[EPT.world.width*3/4+30,EPT.world.height/2+30],
-								[EPT.world.width*3/4+30,EPT.world.height/6+30]
-							]
-					
+		let emplacementsPlace = [[EPT.world.width/4+40,EPT.world.height/6+30],
+							[EPT.world.width/4+40,EPT.world.height*2/6+30],
+							[EPT.world.width/4+40,EPT.world.height*3/6+30],
+							[EPT.world.width/4+40,EPT.world.height*4/6+30],
+							[EPT.world.width/4+40,EPT.world.height*5/6+30],
+						]					
 		this.emplacementsAnimations = []
 		for (let whereOf6 of emplacementsPlace){
 			this.emplacementsAnimations.push(
-				this.add.sprite(whereOf6[0], whereOf6[1], "emplacement").setScale(0.8));
+				this.add.sprite(whereOf6[0], whereOf6[1], "emplacement").setScale(0.3));
 		}
 
 		// Barre de temps
 		var backgroundTime = this.add.graphics();
         backgroundTime.fillStyle(0x982615, 1);
-        backgroundTime.fillRect(0,0,300,30);
-        backgroundTime.x = 200;
-        backgroundTime.y = 10;
+        backgroundTime.fillRect(0,0,30,800);
+        backgroundTime.x = 550;
+        backgroundTime.y = 30;
 
 		this.timeBar = this.add.graphics();
         this.timeBar.fillStyle(0xffba00, 1);
-        this.timeBar.fillRect(0,0,300,30);
-        this.timeBar.x = 200;
-        this.timeBar.y = 10;
+        this.timeBar.fillRect(0,0,30,800);
+        this.timeBar.x = 550;
+        this.timeBar.y = 30;
 		var border = this.add.graphics();
 		border.lineStyle(10, 0x000000, 1);
-		border.strokeRect(200,10,300,30);
+		border.strokeRect(550,30,30,800);
 		
-		this.buttonNextTurn = new Button(525, 25, 'button-continue', this.nextTurn, this).setScale(0.2);
+		this.buttonNextTurn = new Button(570, 900, 'button-continue', this.nextTurn, this).setScale(0.4).setAngle(90);
 
-		this.buttonMoreTurn = new Button(EPT.world.width/2, 150, 'button-turns-plus', this.addTurn, this);
-		this.buttonLessTurn = new Button(EPT.world.width/2, EPT.world.height-50, 'button-turns-moins', this.removeTurn, this);
+		this.buttonMoreTurn = new Button(EPT.world.width*3/4, 150, 'button-turns-plus', this.addTurn, this);
+		this.buttonLessTurn = new Button(EPT.world.width*3/4, EPT.world.height-50, 'button-turns-moins', this.removeTurn, this);
 		this.buttonMoreTurn.setScale(0.2);
 		this.buttonLessTurn.setScale(0.2);	
 
@@ -279,7 +279,7 @@ class Game extends Phaser.Scene {
 	        image.destroy();
 	    });
 		for (let i = 0; i < this._turns_left; i++) {
-			let image = this.add.image(EPT.world.width/2, i * 100 + 250 , 'engrenage').setScale(0.1);
+			let image = this.add.image(EPT.world.width*3/4, i * 70 + 230 , 'engrenage').setScale(2).setAngle(90);
 			this.children.moveTo(image,10);
 		}
 	}

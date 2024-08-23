@@ -25,7 +25,7 @@ class Preloader extends Phaser.Scene {
 				['button-settings', 'img/button-settings.png', {frameWidth:80,frameHeight:80}],
 				['loader', 'img/loader.png', {frameWidth:45,frameHeight:45}],
 				['imp', 'img/imp.png', { frameWidth: 180, frameHeight: 180 }],
-				['emplacement', 'img/sprite-emplacement.png', { frameWidth: 300, frameHeight: 300 }]
+				['emplacement', 'img/sprites.png', { frameWidth: 1250, frameHeight: 555 }]
 			],
 			'audio': [
 				["music",'sfx/machiavellian-nightmare-electronic-dystopia-ai-robot-machine-139385.mp3']
