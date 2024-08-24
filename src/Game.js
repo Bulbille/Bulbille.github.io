@@ -15,34 +15,14 @@ class Game extends Phaser.Scene {
         this.stateStatus = 'playing';
 
 		// this.player = this.physics.add.sprite(EPT.world.width/2,EPT.world.height/2, 'imp');
-		this.players = this.physics.add.group({
-			key:'imp',
-			repeat : 1,
-			setXY: { x: EPT.world.width/2, y: EPT.world.height/4, stepY: EPT.world.height/2 }
-		})
-		this.anims.create({
-			key: 'walk',
-			frames: this.anims.generateFrameNumbers('imp', { start: 1, end: 4 }),
-			frameRate: 10,
-			repeat: -1
-		});
 
-		this.players.children.iterate(function(player) {
-			player.setScale(0.6);
-			player.setBounce(1);
-			player.setCollideWorldBounds(true);
-			player.body.onWorldBounds = true;
-			player.anims.play('walk',true);
-			player.setVelocity(Phaser.Math.Between(-100, 100),Phaser.Math.Between(-100, 100));
-		});
-		this.physics.add.collider(this.players);
 		
         this.initUI();
 		// Play the animations
 		this.anims.create({
 			key: 'pose-ouvrier',
-			frames: this.anims.generateFrameNumbers('emplacement', { start: 0, end: 4 }),
-			frameRate: 1/time,
+			frames: this.anims.generateFrameNumbers('emplacement', { start: 4, end: 0 }),
+			frameRate: 0,
 			repeat: -1 // Repeat once for frames 0 to 6
 		});				
 		
@@ -72,6 +52,28 @@ class Game extends Phaser.Scene {
             callbackScope: this,
             loop: true
         });
+
+		this.players = this.physics.add.group({
+			key:'imp',
+			repeat : 1,
+			setXY: { x: EPT.world.width/2, y: EPT.world.height/4, stepY: EPT.world.height/2 }
+		})
+		this.anims.create({
+			key: 'walk',
+			frames: this.anims.generateFrameNumbers('imp', { start: 1, end: 4 }),
+			frameRate: 10,
+			repeat: -1
+		});
+
+		this.players.children.iterate(function(player) {
+			player.setScale(0.6);
+			player.setBounce(1);
+			player.setCollideWorldBounds(true);
+			player.body.onWorldBounds = true;
+			player.anims.play('walk',true);
+			player.setVelocity(Phaser.Math.Between(-100, 100),Phaser.Math.Between(-100, 100));
+		});
+		this.physics.add.collider(this.players);
 
 	}
 	update() {
